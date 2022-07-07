@@ -8,7 +8,7 @@ import (
 )
 
 const Name = "gdrive"
-const Version = "2.2.0"
+const Version = "2.2.2"
 
 const DefaultMaxFiles = 30
 const DefaultMaxChanges = 100
@@ -206,6 +206,12 @@ func main() {
 						Name:        "recursive",
 						Patterns:    []string{"-r", "--recursive"},
 						Description: "Upload directory recursively",
+						OmitValue:   true,
+					},
+					cli.BoolFlag{
+						Name:        "overwrite",
+						Patterns:    []string{"-w", "--overwrite"},
+						Description: "Overwrite file already exists",
 						OmitValue:   true,
 					},
 					cli.StringSliceFlag{
