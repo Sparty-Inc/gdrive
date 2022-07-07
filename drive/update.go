@@ -50,8 +50,6 @@ func (self *Drive) Update(args UpdateArgs) error {
 		dstFile.MimeType = args.Mime
 	}
 
-	// Set parent folders
-	dstFile.Parents = args.Parents
 	// Set DriveId
 	dstFile.DriveId = args.DriveId
 	// Chunk size option
@@ -66,8 +64,12 @@ func (self *Drive) Update(args UpdateArgs) error {
 	fmt.Fprintf(args.Out, "Uploading %s\n", args.Path)
 	started := time.Now()
 
-	f, err := self.service.Files.Update(args.Id, dstFile).
-		SupportsAllDrives(true).
+	fileUpdate := self.service.Files.Update(args.Id, dstFile)
+	// add parent
+	for _, p := range args.Parents {
+		fileUpdate.AddParents(p)
+	}
+	f, err := fileUpdate.SupportsAllDrives(true).
 		Fields("id", "name", "size").
 		Context(ctx).
 		Media(reader, chunkSize).Do()

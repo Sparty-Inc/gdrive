@@ -189,7 +189,7 @@ func (self *Drive) uploadFile(args UploadArgs) (*drive.File, int64, error) {
 			Path:        args.Path,
 			Name:        args.Name,
 			Description: args.Description,
-			Parents:     args.Parents,
+			Parents:     nil, // parentの追加はない
 			DriveId:     args.DriveId,
 			Mime:        args.Mime,
 			Recursive:   args.Recursive,
